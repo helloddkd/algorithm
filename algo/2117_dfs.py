@@ -13,7 +13,7 @@ def dfs(x,y,k) :
         if result < dfsresult :
             result = dfsresult
     if k <= n :
-        dfs(x,y,k+1)
+        dfs(x,y,k+1) #결국 n+1까지 봄
 for a in range(int(input())) :
     n,m = list(map(int,input().split()))
     item = [list(map(int,input().split())) for i in range(n)]
@@ -26,4 +26,4 @@ for a in range(int(input())) :
     for i in range(n) :
         for j in range(n) :
             dfs(i,j,1)
-    print(f'#{a+1} {result}')
+    print('#{} {}'.format(a+1, result))

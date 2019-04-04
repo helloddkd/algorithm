@@ -62,4 +62,4 @@ for a in range(int(input())):
         fst_map.extend(list(map(int, input().split())))
     my_min = w*h
     dfs(0, fst_map)
-    print(f'#{a + 1} {my_min}')
+    print('#{} {}'.format(a+1, my_min))

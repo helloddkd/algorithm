@@ -29,12 +29,11 @@ def DFS(r,c, val, str, stc, d=-1, cnt=0, path=[], visit=[], dirpath=[]):
             elif rr == str and cc == stc and len(pathh)>2 and cnt in (3,4):
                 Max=max(Max, len(pathh))
                 return
-
+dr = [-1,-1,1,1]
+dc = [1,-1,1,-1]
 for test in range(1, int(input())+1):
     N = int(input())
     arr = [list(map(int, input().split())) for _ in range(N)]
-    dr = [-1,-1,1,1]
-    dc = [1,-1,1,-1]
     Max = 0
     for r in range(1,N-1):
         for c in range(1,N-1):

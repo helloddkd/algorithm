@@ -28,33 +28,35 @@ def collide(r,c, arr, blocks):
 
 def makepermu(n=0, per = []):
     global Min
+    if Min == 0: #이게 시간 줄이는 포인트!!!!!!!!!!!!!!!!!!!!!!!!! 이미 최소값 나왔으면 뒤는 쳐다보지말기
+        return
     perr = per + [n]
     if len(perr) == N:
         arr = [Map[k][:] for k in range(H)]
         blocks = Blocks
-        for i in range(N):
+        for i in range(N): #순열 각 원소에 있는 c인덱스에서 구슬을 떨어뜨린다
             for r in range(H):
                 if arr[r][perr[i]] != 0:
-                    arr, blocks = collide(r, perr[i], arr, blocks)
+                    arr, blocks = collide(r, perr[i], arr, blocks) #그때그때 맵상황이랑 남은 블럭개수를 리턴으로 받는다.
                     break
-            #한번한번 터뜨리고 나서 0을 정리해줘야함
+            #터뜨리고 나서 0을 정리해줘야함
             no = []
             for rr in range(H-1,-1,-1): #맨밑에줄부터 본다
                 if len(no) == W:
                     break
                 for cc in range(W):
-                    if arr[rr][cc] == 0 and cc not in no:
+                    if arr[rr][cc] == 0 and cc not in no: #밑줄부터 보다가 0이 있으면, 그 열의 윗줄들을 일렬로 살펴본다.
                         Q = deque()
                         for k in range(rr-1,-1,-1):
-                            if arr[k][cc] != 0:
+                            if arr[k][cc] != 0: #윗줄에서 0 아닌것을 덱에 넣는다.
                                 Q.append(arr[k][cc])
                                 arr[k][cc] = 0
                         if len(Q): #0인데 그 위에 0아닌 것이 하나라도 있으면
                             jj = 0
-                            while Q:
+                            while Q:# 0이었던 자리부터 차례대로 다시 쌓아준다.
                                 arr[rr-jj][cc] = Q.popleft()
                                 jj += 1
-                        else:
+                        else: #처음 0이 나타났는데 윗줄에 쌓여있는게 없으면 그 열은 다시 보지 않기 위해 no에 열인덱스를 저장해둔다.
                             no.append(cc)
         Min = min(Min, blocks)
         return
@@ -69,8 +71,18 @@ for test in range(1, T + 1):
     for _ in range(H):
         temp = list(map(int, input().split()))
         Map.append(temp)
-        Blocks -= temp.count(0)
+        Blocks -= temp.count(0) #처음에 블럭 몇 개 있는지 보기
     Min = W*H
     for i in range(W-1,-1,-1):
-        makepermu(i)
+        if Min > 0:
+            makepermu(i)
     print('#{} {}'.format(test, Min))
+
+
+# 더 빠르게 혹은 직관적으로 하려면 배열을 1차로 만들어서 .count(0)을 하면 된다.
+# 인덱스는 [r*W+c]로 한다.
+'''
+for c in range(W):
+    for r in range(H):
+        arr[r*W+c]
+'''
